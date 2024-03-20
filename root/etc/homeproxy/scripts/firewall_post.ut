@@ -410,10 +410,10 @@ chain homeproxy_redirect {
 	{% if (routing_mode === 'gfwlist'): %}
 	ip saddr @homeproxy_lan_game_addr_v4 ip daddr != @homeproxy_mainland_addr_v4 counter goto homeproxy_redirect_proxy
 	{% if (ipv6_support === '1'): %}
-	ip6 saddr @homeproxy_lan_game_addr_v6 ip daddr != @homeproxy_mainland_addr_v6 counter goto homeproxy_redirect_proxy
+	ip6 saddr @homeproxy_lan_game_addr_v6 ip6 daddr != @homeproxy_mainland_addr_v6 counter goto homeproxy_redirect_proxy
 	{% endif /* ipv6_support */ %}
 	ether saddr @homeproxy_lan_game_addr_mac ip daddr != @homeproxy_mainland_addr_v4 counter goto homeproxy_redirect_proxy
-	ether saddr @homeproxy_lan_game_addr_mac ip daddr != @homeproxy_mainland_addr_v6 counter goto homeproxy_redirect_proxy
+	ether saddr @homeproxy_lan_game_addr_mac ip6 daddr != @homeproxy_mainland_addr_v6 counter goto homeproxy_redirect_proxy
 	{% endif /* routing_mode */ %}
 
 	{% if (routing_mode === 'gfwlist'): %}
@@ -527,10 +527,10 @@ chain homeproxy_mangle_prerouting {
 	{% if (routing_mode === 'gfwlist'): %}
 	ip saddr @homeproxy_lan_game_addr_v4 ip daddr != @homeproxy_mainland_addr_v4 counter goto homeproxy_mangle_tproxy
 	{% if (ipv6_support === '1'): %}
-	ip6 saddr @homeproxy_lan_game_addr_v6 ip daddr != @homeproxy_mainland_addr_v6 counter goto homeproxy_mangle_tproxy
+	ip6 saddr @homeproxy_lan_game_addr_v6 ip6 daddr != @homeproxy_mainland_addr_v6 counter goto homeproxy_mangle_tproxy
 	{% endif /* ipv6_support */ %}
 	ether saddr @homeproxy_lan_game_addr_mac ip daddr != @homeproxy_mainland_addr_v4 counter goto homeproxy_mangle_tproxy
-	ether saddr @homeproxy_lan_game_addr_mac ip daddr != @homeproxy_mainland_addr_v6 counter goto homeproxy_mangle_tproxy
+	ether saddr @homeproxy_lan_game_addr_mac ip6 daddr != @homeproxy_mainland_addr_v6 counter goto homeproxy_mangle_tproxy
 	{% endif /* routing_mode */ %}
 
 	{% if (routing_mode === 'gfwlist'): %}
@@ -674,10 +674,10 @@ chain homeproxy_mangle_tun {
 	{% if (routing_mode === 'gfwlist'): %}
 	ip saddr @homeproxy_lan_game_addr_v4 ip daddr != @homeproxy_mainland_addr_v4 counter mark set {{ tun_mark }}
 	{% if (ipv6_support === '1'): %}
-	ip6 saddr @homeproxy_lan_game_addr_v6 ip daddr != @homeproxy_mainland_addr_v6 counter mark set {{ tun_mark }}
+	ip6 saddr @homeproxy_lan_game_addr_v6 ip6 daddr != @homeproxy_mainland_addr_v6 counter mark set {{ tun_mark }}
 	{% endif /* ipv6_support */ %}
 	ether saddr @homeproxy_lan_game_addr_mac ip daddr != @homeproxy_mainland_addr_v4 counter mark set {{ tun_mark }}
-	ether saddr @homeproxy_lan_game_addr_mac ip daddr != @homeproxy_mainland_addr_v6 counter mark set {{ tun_mark }}
+	ether saddr @homeproxy_lan_game_addr_mac ip6 daddr != @homeproxy_mainland_addr_v6 counter mark set {{ tun_mark }}
 	{% endif /* routing_mode */ %}
 
 	{% if (routing_mode === 'gfwlist'): %}

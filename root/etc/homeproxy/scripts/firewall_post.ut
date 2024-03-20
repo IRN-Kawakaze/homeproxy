@@ -438,25 +438,17 @@ chain homeproxy_mangle_lanac {
 	meta mark {{ self_mark }} counter return
 
 	{% if (control_info.lan_proxy_mode === 'listed_only'): %}
-	{% if (!isEmpty(control_info.lan_proxy_ipv4_ips)): %}
-	ip saddr {{ array_to_nftarr(control_info.lan_proxy_ipv4_ips) }} counter goto homeproxy_mangle_prerouting
-	{% endif /* lan_proxy_ipv4_ips */ %}
-	{% for (let ipv6 in control_info.lan_proxy_ipv6_ips): %}
-	ip6 saddr {{ resolve_ipv6(ipv6) }} counter goto homeproxy_mangle_prerouting
-	{% endfor /* lan_proxy_ipv6_ips */ %}
-	{% if (!isEmpty(control_info.lan_proxy_mac_addrs)): %}
-	ether saddr {{ array_to_nftarr(control_info.lan_proxy_mac_addrs) }} counter goto homeproxy_mangle_prerouting
-	{% endif /* lan_proxy_mac_addrs */ %}
+	ip saddr @homeproxy_lan_proxy_addr_v4 counter goto homeproxy_mangle_prerouting
+	{% if (ipv6_support === '1'): %}
+	ip6 saddr @homeproxy_lan_proxy_addr_v6 counter goto homeproxy_mangle_prerouting
+	{% endif /* ipv6_support */ %}
+	ether saddr @homeproxy_lan_proxy_addr_mac counter goto homeproxy_mangle_prerouting
 	{% elif (control_info.lan_proxy_mode === 'except_listed'): %}
-	{% if (!isEmpty(control_info.lan_direct_ipv4_ips)): %}
-	ip saddr {{ array_to_nftarr(control_info.lan_direct_ipv4_ips) }} counter return
-	{% endif /* lan_direct_ipv4_ips */ %}
-	{% for (let ipv6 in control_info.lan_direct_ipv6_ips): %}
-	ip6 saddr {{ resolve_ipv6(ipv6) }} counter return
-	{% endfor /* lan_direct_ipv6_ips */ %}
-	{% if (!isEmpty(control_info.lan_direct_mac_addrs)): %}
-	ether saddr {{ array_to_nftarr(control_info.lan_direct_mac_addrs) }} counter return
-	{% endif /* lan_direct_mac_addrs */ %}
+	ip saddr @homeproxy_lan_direct_addr_v4 counter return
+	{% if (ipv6_support === '1'): %}
+	ip6 saddr @homeproxy_lan_direct_addr_v6 counter return
+	{% endif /* ipv6_support */ %}
+	ether saddr @homeproxy_lan_direct_addr_mac counter return
 	{% endif /* lan_proxy_mode */ %}
 
 	{% if (control_info.lan_proxy_mode !== 'listed_only'): %}
@@ -592,25 +584,17 @@ chain homeproxy_mangle_lanac {
 	{% endif %}
 
 	{% if (control_info.lan_proxy_mode === 'listed_only'): %}
-	{% if (!isEmpty(control_info.lan_proxy_ipv4_ips)): %}
-	ip saddr {{ array_to_nftarr(control_info.lan_proxy_ipv4_ips) }} counter goto homeproxy_mangle_tun
-	{% endif /* lan_proxy_ipv4_ips */ %}
-	{% for (let ipv6 in control_info.lan_proxy_ipv6_ips): %}
-	ip6 saddr {{ resolve_ipv6(ipv6) }} counter goto homeproxy_mangle_tun
-	{% endfor /* lan_proxy_ipv6_ips */ %}
-	{% if (!isEmpty(control_info.lan_proxy_mac_addrs)): %}
-	ether saddr {{ array_to_nftarr(control_info.lan_proxy_mac_addrs) }} counter goto homeproxy_mangle_tun
-	{% endif /* lan_proxy_mac_addrs */ %}
+	ip saddr @homeproxy_lan_proxy_addr_v4 counter goto homeproxy_mangle_tun
+	{% if (ipv6_support === '1'): %}
+	ip6 saddr @homeproxy_lan_proxy_addr_v6 counter goto homeproxy_mangle_tun
+	{% endif /* ipv6_support */ %}
+	ether saddr @homeproxy_lan_proxy_addr_mac counter goto homeproxy_mangle_tun
 	{% elif (control_info.lan_proxy_mode === 'except_listed'): %}
-	{% if (!isEmpty(control_info.lan_direct_ipv4_ips)): %}
-	ip saddr {{ array_to_nftarr(control_info.lan_direct_ipv4_ips) }} counter return
-	{% endif /* lan_direct_ipv4_ips */ %}
-	{% for (let ipv6 in control_info.lan_direct_ipv6_ips): %}
-	ip6 saddr {{ resolve_ipv6(ipv6) }} counter return
-	{% endfor /* lan_direct_ipv6_ips */ %}
-	{% if (!isEmpty(control_info.lan_direct_mac_addrs)): %}
-	ether saddr {{ array_to_nftarr(control_info.lan_direct_mac_addrs) }} counter return
-	{% endif /* lan_direct_mac_addrs */ %}
+	ip saddr @homeproxy_lan_direct_addr_v4 counter return
+	{% if (ipv6_support === '1'): %}
+	ip6 saddr @homeproxy_lan_direct_addr_v6 counter return
+	{% endif /* ipv6_support */ %}
+	ether saddr @homeproxy_lan_direct_addr_mac counter return
 	{% endif /* lan_proxy_mode */ %}
 
 	{% if (control_info.lan_proxy_mode !== 'listed_only'): %}

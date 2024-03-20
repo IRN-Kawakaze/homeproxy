@@ -487,15 +487,15 @@ chain homeproxy_mangle_prerouting {
 chain homeproxy_mangle_output {
 	meta mark {{ self_mark }} counter return
 
-	ip daddr @homeproxy_wan_proxy_addr_v4 counter goto homeproxy_mangle_mark
-	{% if (ipv6_support === '1'): %}
-	ip6 daddr @homeproxy_wan_proxy_addr_v6 counter goto homeproxy_mangle_mark
-	{% endif %}
-
 	ip daddr @homeproxy_local_addr_v4 counter return
 	{% if (ipv6_support === '1'): %}
 	ip6 daddr @homeproxy_local_addr_v6 counter return
-	{% endif %}
+	{% endif /* ipv6_support */ %}
+
+	ip daddr @homeproxy_wan_proxy_addr_v4 counter goto homeproxy_mangle_mark
+	{% if (ipv6_support === '1'): %}
+	ip6 daddr @homeproxy_wan_proxy_addr_v6 counter goto homeproxy_mangle_mark
+	{% endif /* ipv6_support */ %}
 
 	ip daddr @homeproxy_wan_direct_addr_v4 counter return
 	{% if (ipv6_support === '1'): %}

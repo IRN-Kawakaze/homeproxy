@@ -153,7 +153,8 @@ set homeproxy_gfw_list_v6 {
 	auto-merge
 }
 {% endif /* ipv6_support */ %}
-{% elif (match(routing_mode, /mainland_china/) || bypass_cn_traffic === '1'): %}
+{% endif /* routing_mode */ %}
+
 set homeproxy_mainland_addr_v4 {
 	type ipv4_addr
 	flags interval
@@ -176,7 +177,6 @@ set homeproxy_mainland_addr_v6 {
 	}
 }
 {% endif /* ipv6_support */ %}
-{% endif /* routing_mode */ %}
 
 {# WAN ACL addresses #}
 set homeproxy_wan_proxy_addr_v4 {

@@ -327,11 +327,14 @@ stop_service() {
 	for i in "homeproxy_local_addr_v4" "homeproxy_local_addr_v6" \
 		 "homeproxy_gfw_list_v4" "homeproxy_gfw_list_v6" \
 		 "homeproxy_mainland_addr_v4" "homeproxy_mainland_addr_v6" \
+		 "homeproxy_wan_proxy_addr_v4" "homeproxy_wan_proxy_addr_v6" \
+		 "homeproxy_wan_direct_addr_v4" "homeproxy_wan_direct_addr_v6" \
 		 "homeproxy_lan_direct_addr_v4" "homeproxy_lan_direct_addr_v6" \
 		 "homeproxy_lan_proxy_addr_v4" "homeproxy_lan_proxy_addr_v6" \
 		 "homeproxy_lan_direct_addr_mac" "homeproxy_lan_proxy_addr_mac" \
-		 "homeproxy_wan_proxy_addr_v4" "homeproxy_wan_proxy_addr_v6" \
-		 "homeproxy_wan_direct_addr_v4" "homeproxy_wan_direct_addr_v6" \
+		 "homeproxy_lan_game_addr_v4" "homeproxy_lan_game_addr_v6" \
+		 "homeproxy_lan_gp_addr_v4" "homeproxy_lan_gp_addr_v6" \
+		 "homeproxy_lan_game_addr_mac" "homeproxy_lan_gp_addr_mac" \
 		 "homeproxy_routing_port"; do
 		nft flush set inet fw4 "$i"
 		nft delete set inet fw4 "$i"
